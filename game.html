@@ -3,26 +3,49 @@
 <head>
     <meta charset="utf-8" />
     <title>Gamedev Canvas Workshop</title>
-    <style>
-    	* { padding: 0; margin: 0; }
-    	canvas { background: #FFA; display: block; margin: 2 auto; }
-    </style>
+    <link rel="stylesheet" type="text/css" href= "style.css">
 </head>
 <body>
 
-<canvas id="myCanvas" width="1024" height="765"></canvas>
+<div class='game'>
+	<div id='terminal-div'>
+		<textarea id="terminal-window" disabled="false"></textarea>
+		<div id="terminal-cli"><span>>>></span><input type="text" maxlength="30" id="terminal-input"></div>
+</div>
 
+<canvas id="myCanvas" width="500" height="500"></canvas>
+<script type="text/javascript" src="terminal.js"></script>
 <script>
+
+
 	var canvas = document.getElementById("myCanvas");
 	var ctx = canvas.getContext("2d");
 	var FPS = 30;
-	//61px
-	canvas.style.left = "61px";
-    canvas.style.top = "183px";
-    canvas.style.position = "absolute";
+	var terminal_window = document.getElementById("terminal-window");
+	var terminal_input = document.getElementById("terminal-input");
+	var trm = new Terminal(terminal_input, terminal_window);
+	var pressed = false;
+	
+	document.addEventListener("keydown", keyDownHandler, false);
+	document.addEventListener("keyup", keyUpHandler, false);
+
+	function keyDownHandler(e){
+		if (e.key == "ArrowRight"){
+			pressed = true;
+		}
+	}
+	function keyUpHandler(e) {
+		if (e.key == "ArrowRight"){
+			pressed = false;
+		}
+	}
 
 	function draw() {
-		ctx.fillText("Hello World!", 50, 50);
+		if(pressed == true){
+			console.log("PRESSED")
+			trm.get_input();
+			trm.print_command();
+		}
 	}
 	function update(){}
 
@@ -31,7 +54,7 @@
 		  draw();
 		}, 1000/FPS);
 	
-
+	
 
 
 
